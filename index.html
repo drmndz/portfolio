@@ -109,8 +109,13 @@ nav.scrolled{background:rgba(26,10,10,0.92);backdrop-filter:blur(14px);}
 .f-btn:hover{color:rgba(245,237,226,.8);}
 .f-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
 
+/* Section divider */
+.pr-section-label{padding:40px 80px 0;display:flex;align-items:center;gap:16px;}
+.pr-section-label span{font-size:10px;letter-spacing:.36em;text-transform:uppercase;color:var(--crimson);font-weight:600;}
+.pr-section-label::after{content:'';flex:1;height:1px;background:var(--crimson);opacity:.2;}
+
 /* Card grid */
-.pr-body{padding:60px 80px 80px;}
+.pr-body{padding:24px 80px 80px;}
 .pr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
 
 .pr-card{background:var(--white);overflow:hidden;cursor:pointer;transition:transform .35s cubic-bezier(.25,.46,.45,.94),box-shadow .35s;}
@@ -127,6 +132,8 @@ nav.scrolled{background:rgba(26,10,10,0.92);backdrop-filter:blur(14px);}
 .pr-card-img-placeholder.bg4{background:#0a1a2a;}
 .pr-card-img-placeholder.bg5{background:#0a2a1a;}
 .pr-card-img-placeholder.bg6{background:#1a0a2a;}
+.pr-card-img-placeholder.bg7{background:#1a1a0a;}
+.pr-card-img-placeholder.bg8{background:#0a2a2a;}
 .ph-icon{font-size:32px;opacity:.4;}
 .ph-text{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.25);}
 /* Type badge */
@@ -134,6 +141,8 @@ nav.scrolled{background:rgba(26,10,10,0.92);backdrop-filter:blur(14px);}
 .badge-task{background:var(--crimson);color:var(--white);}
 .badge-practice{background:var(--charcoal);color:var(--gold);}
 .badge-project{background:var(--gold);color:var(--crimson-deep);}
+.badge-final{background:var(--gold);color:var(--crimson-deep);}
+.badge-essay{background:#2a5a3a;color:#a8e6c0;}
 
 /* Card body */
 .pr-card-body{padding:28px;}
@@ -188,7 +197,8 @@ nav.scrolled{background:rgba(26,10,10,0.92);backdrop-filter:blur(14px);}
   .ab-bio{grid-template-columns:1fr;padding:60px 28px;}
   .pr-hero{padding:120px 28px 60px;}
   .pr-filter{padding:0 28px;overflow-x:auto;}
-  .pr-body{padding:40px 28px;}
+  .pr-body{padding:24px 28px 60px;}
+  .pr-section-label{padding:32px 28px 0;}
   .pr-grid{grid-template-columns:1fr;}
   .pr-footer{padding:60px 28px;}
 }
@@ -223,8 +233,8 @@ nav.scrolled{background:rgba(26,10,10,0.92);backdrop-filter:blur(14px);}
       <div class="land-cards">
         <div class="lcard">
           <p class="lcard-lbl">Works Completed</p>
-          <div class="lcard-val">06</div>
-          <p class="lcard-desc">Tasks &amp; lab practices this midterm</p>
+          <div class="lcard-val">12</div>
+          <p class="lcard-desc">Tasks, practices &amp; final works</p>
         </div>
         <div class="lcard">
           <p class="lcard-lbl">Term</p>
@@ -235,8 +245,9 @@ nav.scrolled{background:rgba(26,10,10,0.92);backdrop-filter:blur(14px);}
     <div class="land-ticker">
       <div class="tick-item"><span class="tick-dot"></span>Midterm Tasks</div>
       <div class="tick-item"><span class="tick-dot"></span>Lab Practices</div>
-      <div class="tick-item"><span class="tick-dot"></span>Projects</div>
-      <div class="tick-item"><span class="tick-dot"></span>Your Course Here</div>
+      <div class="tick-item"><span class="tick-dot"></span>Final Tasks</div>
+      <div class="tick-item"><span class="tick-dot"></span>Power BI</div>
+      <div class="tick-item"><span class="tick-dot"></span>SQL</div>
     </div>
   </section>
   <div class="land-preview">
@@ -249,7 +260,7 @@ nav.scrolled{background:rgba(26,10,10,0.92);backdrop-filter:blur(14px);}
     <div class="prev-card" onclick="goTo('projects')">
       <p class="prev-num">02</p>
       <h3 class="prev-title">My <em>Projects</em></h3>
-      <p class="prev-desc">All midterm tasks and lab practices, presented with context, tools used, and key takeaways.</p>
+      <p class="prev-desc">All midterm tasks, lab practices, and final works — presented with context, tools used, and key takeaways.</p>
       <p class="prev-link">See Work →</p>
     </div>
     <div class="prev-card">
@@ -297,7 +308,7 @@ nav.scrolled{background:rgba(26,10,10,0.92);backdrop-filter:blur(14px);}
   <!-- Hero -->
   <div class="pr-hero">
     <div class="pr-hero-inner">
-      <h1>Midterm<br><em>Projects</em></h1>
+      <h1>My<br><em>Projects</em></h1>
       <div>
         <div class="pr-hero-cnt" id="pr-count">00</div>
         <p class="pr-hero-sub">Total Works</p>
@@ -308,8 +319,10 @@ nav.scrolled{background:rgba(26,10,10,0.92);backdrop-filter:blur(14px);}
   <!-- Filters -->
   <div class="pr-filter">
     <button class="f-btn active" onclick="filterCards('all',this)">All Work</button>
-    <button class="f-btn" onclick="filterCards('task',this)">Tasks</button>
+    <button class="f-btn" onclick="filterCards('task',this)">Midterm Tasks</button>
     <button class="f-btn" onclick="filterCards('practice',this)">Practices</button>
+    <button class="f-btn" onclick="filterCards('final',this)">Final Tasks</button>
+    <button class="f-btn" onclick="filterCards('essay',this)">Essay</button>
   </div>
 
   <!-- Grid -->
@@ -346,59 +359,113 @@ nav.scrolled{background:rgba(26,10,10,0.92);backdrop-filter:blur(14px);}
 
 <script>
 const defaultProjects = [
+  // ── MIDTERM TASKS ──
   {
     num:'01', type:'task',
     title:'Midterms Task 1',
-    description:'Data cleaning and preparation using excel',
+    description:'Data cleaning and preparation using Excel.',
     image:'Midterms task/TASK 1 SS.png',
     link:'Midterms task/Task 1.xlsx'
   },
   {
     num:'02', type:'task',
     title:'Midterms Task 2',
-    description:'Data analysis using pivot table',
+    description:'Data analysis using pivot table.',
     image:'Midterms task/TASK 2 SS.png',
     link:'Midterms task/Task 2.xlsx'
   },
   {
     num:'03', type:'task',
     title:'Midterms Task 3',
-    description:'Data preparation and cleaning and modeling with power query',
+    description:'Data preparation and cleaning and modeling with Power Query.',
     image:'Midterms task/TASK 3 SS.png',
     link:'Midterms task/Task 3.xlsx'
   },
+  // ── MIDTERM PRACTICES ──
   {
     num:'04', type:'practice',
     title:'Practice Title 1',
-    description:'Sales revenue dataset',
+    description:'Sales revenue dataset.',
     image:'Midterms practice/TASK 1 PRACT.png',
     link:'Midterms practice/Task1.xlsx'
   },
   {
     num:'05', type:'practice',
     title:'Practice Title 2',
-    description:'Sales Dashboard',
+    description:'Sales Dashboard.',
     image:'Midterms practice/TASK 2 PRACT.png',
     link:'Midterms practice/Task2.xlsx'
   },
   {
     num:'06', type:'practice',
     title:'Practice Title 3',
-    description:'Practice task query',
+    description:'Practice task query.',
     image:'Midterms practice/TASK 3 PRACT.png',
     link:'Midterms practice/Task3.xlsx'
   },
+  // ── FINAL PRACTICE ──
+  {
+    num:'07', type:'practice',
+    title:'Final Practice 1',
+    description:'Data Preparations using SQL — an introductory exercise in writing SQL queries for data cleaning, formatting, and preparation.',
+    image:'Final practice/Finals Pratice SS 1.png',
+    link:'Final practice/Finals Practice 1.sql'
+  },
+  // ── FINAL TASKS ──
+  {
+    num:'08', type:'final',
+    title:'Final Task 1',
+    description:'Data Preparation and Analysis using SQL — applying structured query language to clean, transform, and analyze datasets.',
+    image:'Final task/Finals Task SS 1.png',
+    link:'Final task/Finals Task 1.pdf'
+  },
+  {
+    num:'09', type:'essay',
+    title:'Final Task 1.1',
+    description:'Data Analytics and SQL — an essay exploring the relationship between SQL and modern data analytics practices.',
+    image:'Final task/Finals Essay Task 1 SS.png',
+    link:'Final task/Finals Essay Task 1.pdf'
+  },
+  {
+    num:'10', type:'final',
+    title:'Final Task 2',
+    description:'Navigating Power BI — exploring the Power BI environment, connecting data sources, and building foundational reports.',
+    image:'Final task/Finals Task 2 SS 2.png',
+    link:'Final task/Finals Task 2.pbix'
+  },
+  {
+    num:'11', type:'final',
+    title:'Final Task 3',
+    description:'Time Intelligence Function in Power BI — using DAX time intelligence functions to create year-over-year, month-to-date, and rolling calculations.',
+    image:'Final task/Finals Task 3 SS 1.png',
+    link:'Final task/Finals Task 3.pbix'
+  },
+  {
+    num:'12', type:'final',
+    title:'Final Task 4',
+    description:'Designing Interactive Reports — building polished, interactive Power BI reports with slicers, drill-throughs, and dynamic visuals.',
+    image:'Final task/Finals Task 4 SS 1.png',
+    link:'Final task/Finals Task 4.pbix'
+  },
 ];
 
-const bgClasses = ['bg1','bg2','bg3','bg4','bg5','bg6'];
-const phIcons   = ['📊','📁','🗂️','💡','🔬','📋','✏️'];
+const bgClasses = ['bg1','bg2','bg3','bg4','bg5','bg6','bg7','bg8'];
+const phIcons   = ['📊','📁','🗂️','💡','🔬','📋','✏️','🖥️','📝','⚡','📈','🎨'];
 let allProjects  = [...defaultProjects];
 let activeFilter = 'all';
 
 function typeClass(t){
-  if(t==='task') return 'badge-task';
+  if(t==='task')     return 'badge-task';
   if(t==='practice') return 'badge-practice';
+  if(t==='final')    return 'badge-final';
+  if(t==='essay')    return 'badge-essay';
   return 'badge-project';
+}
+
+function typeLabel(t){
+  if(t==='final') return 'Final Task';
+  if(t==='essay') return 'Essay';
+  return t.charAt(0).toUpperCase() + t.slice(1);
 }
 
 function externalIcon(){
@@ -418,13 +485,13 @@ function buildCard(p, idx){
     : `<span class="pr-card-link" style="opacity:.35;cursor:default;">No link yet</span>`;
 
   return `
-  <div class="pr-card" data-type="${p.type}" onclick="openModal(${idx})">
+  <div class="pr-card" data-type="${p.type}" onclick="openModal(${allProjects.indexOf(p)})">
     <div class="pr-card-img">
       ${imgHTML}
-      <span class="pr-card-type-badge ${typeClass(p.type)}">${p.type}</span>
+      <span class="pr-card-type-badge ${typeClass(p.type)}">${typeLabel(p.type)}</span>
     </div>
     <div class="pr-card-body">
-      <p class="pr-card-num">${p.num || String(idx+1).padStart(2,'0')} · ${p.type.toUpperCase()}</p>
+      <p class="pr-card-num">${p.num || String(idx+1).padStart(2,'0')} · ${typeLabel(p.type).toUpperCase()}</p>
       <h3 class="pr-card-title">${p.title}</h3>
       <p class="pr-card-desc">${p.description}</p>
       <div class="pr-card-footer">
@@ -444,7 +511,7 @@ function renderGrid(){
   if(filtered.length === 0){
     grid.innerHTML = `<div class="pr-empty" style="grid-column:1/-1"><div class="pr-empty-icon">📂</div><p>No ${activeFilter}s found.</p></div>`;
   } else {
-    grid.innerHTML = filtered.map((p,i) => buildCard(p, allProjects.indexOf(p))).join('');
+    grid.innerHTML = filtered.map((p,i) => buildCard(p, i)).join('');
   }
   document.getElementById('pr-count').textContent = String(allProjects.length).padStart(2,'0');
 }
@@ -462,7 +529,7 @@ function openModal(idx){
   const bg = bgClasses[idx % bgClasses.length];
   const icon = phIcons[idx % phIcons.length];
 
-  document.getElementById('modal-type').textContent = p.type.toUpperCase();
+  document.getElementById('modal-type').textContent = typeLabel(p.type).toUpperCase();
   document.getElementById('modal-title').textContent = p.title;
   document.getElementById('modal-desc').textContent = p.description || 'No description provided.';
 
