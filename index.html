@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midterm Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --crimson:#7A1212;--crimson-deep:#4E0A0A;--crimson-mid:#9B1F1F;
+  --cream:#F6EDE2;--cream-dark:#EAD8C2;--charcoal:#191208;
+  --gold:#C8A56A;--gold-light:#E5C98A;--white:#FDFAF5;
+  --muted:rgba(245,237,227,0.55);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charcoal);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:22px 64px;display:flex;justify-content:space-between;align-items:center;transition:background .4s,backdrop-filter .4s;}
+nav.scrolled{background:rgba(26,10,10,0.92);backdrop-filter:blur(14px);}
+.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);text-decoration:none;letter-spacing:.04em;cursor:pointer;}
+.nav-logo span{color:var(--gold);font-style:italic;}
+.nav-links{display:flex;gap:0;list-style:none;}
+.nav-links li a{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(253,250,245,.65);text-decoration:none;padding:10px 20px;transition:color .2s;cursor:pointer;}
+.nav-links li a:hover,.nav-links li a.active{color:var(--gold);}
+
+/* PAGES */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* BUTTONS */
+.btn-p{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:var(--crimson-deep);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;padding:16px 36px;border:none;cursor:pointer;transition:all .3s;}
+.btn-p:hover{background:var(--gold-light);}
+.btn-o{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--white);font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;padding:16px 36px;border:1px solid rgba(253,250,245,.25);cursor:pointer;transition:all .3s;}
+.btn-o:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+.fade-in>*{animation:fadeUp .8s ease both;opacity:0;}
+.fade-in>*:nth-child(1){animation-delay:.1s;}
+.fade-in>*:nth-child(2){animation-delay:.25s;}
+.fade-in>*:nth-child(3){animation-delay:.4s;}
+.fade-in>*:nth-child(4){animation-delay:.55s;}
+
+/* ════════ LANDING ════════ */
+#page-landing{background:var(--crimson-deep);}
+.land-hero{min-height:100vh;display:grid;grid-template-columns:1fr 400px;gap:40px;align-items:center;padding:140px 80px 80px;position:relative;overflow:hidden;}
+.land-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 60% 40%,rgba(122,18,18,.55) 0%,transparent 65%),radial-gradient(ellipse 50% 50% at 10% 90%,rgba(200,165,106,.1) 0%,transparent 55%);pointer-events:none;}
+.land-bg-txt{position:absolute;right:-60px;bottom:-30px;font-family:'Playfair Display',serif;font-size:clamp(140px,22vw,260px);font-weight:900;color:rgba(255,255,255,.03);line-height:1;letter-spacing:-.04em;user-select:none;white-space:nowrap;}
+.land-eyebrow{display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;}
+.land-eyebrow::before{content:'';width:36px;height:1px;background:var(--gold);}
+.land-title{font-family:'Playfair Display',serif;font-size:clamp(56px,9vw,108px);font-weight:900;line-height:.88;color:var(--white);text-transform:uppercase;letter-spacing:-.03em;margin-bottom:36px;}
+.land-title em{font-style:italic;color:var(--gold-light);display:block;}
+.land-sub{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:300;color:var(--muted);line-height:1.75;max-width:440px;margin-bottom:52px;}
+.land-btns{display:flex;gap:16px;flex-wrap:wrap;}
+.land-cards{display:flex;flex-direction:column;gap:16px;position:relative;z-index:2;animation:fadeUp .9s .5s ease both;opacity:0;}
+.lcard{background:rgba(245,237,227,.05);border:1px solid rgba(200,165,106,.2);backdrop-filter:blur(10px);padding:28px 32px;transition:border-color .3s;}
+.lcard:hover{border-color:rgba(200,165,106,.5);}
+.lcard-lbl{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.lcard-val{font-family:'Playfair Display',serif;font-size:40px;font-weight:700;color:var(--white);line-height:1;}
+.lcard-desc{font-size:12px;color:var(--muted);margin-top:6px;}
+.land-ticker{border-top:1px solid rgba(200,165,106,.15);padding:20px 80px;display:flex;gap:56px;overflow:hidden;}
+.tick-item{display:flex;align-items:center;gap:12px;white-space:nowrap;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,237,227,.35);}
+.tick-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+.land-preview{background:var(--charcoal);display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(200,165,106,.12);}
+.prev-card{background:var(--charcoal);padding:60px 48px;cursor:pointer;transition:background .3s;}
+.prev-card:hover{background:rgba(122,18,18,.25);}
+.prev-num{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+.prev-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--white);margin-bottom:12px;}
+.prev-title em{font-style:italic;color:var(--gold);}
+.prev-desc{font-size:13px;color:var(--muted);line-height:1.7;}
+.prev-link{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--crimson-mid);margin-top:24px;}
+
+/* ════════ ABOUT ════════ */
+#page-about{background:var(--cream);}
+.ab-hero{background:var(--charcoal);padding:160px 80px 100px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;position:relative;overflow:hidden;}
+.ab-hero::after{content:'ABOUT';position:absolute;right:-20px;bottom:-40px;font-family:'Playfair Display',serif;font-size:clamp(100px,18vw,200px);font-weight:900;color:rgba(255,255,255,.03);line-height:1;user-select:none;letter-spacing:-.04em;}
+.ab-hero h1{font-family:'Playfair Display',serif;font-size:clamp(44px,7vw,80px);font-weight:900;line-height:.9;color:var(--white);text-transform:uppercase;letter-spacing:-.02em;margin-bottom:24px;}
+.ab-hero h1 em{color:var(--gold);font-style:italic;display:block;}
+.ab-hero p{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--muted);line-height:1.8;max-width:400px;}
+.ab-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(200,165,106,.12);}
+.ab-bio{padding:100px 80px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.ab-bio h2{font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,44px);font-weight:700;color:var(--charcoal);line-height:1.15;margin-bottom:28px;}
+.ab-bio h2 em{color:var(--crimson);font-style:italic;}
+.ab-bio p{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:rgba(26,18,8,.65);line-height:1.85;margin-bottom:16px;}
+.skills-lbl{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--crimson);margin-bottom:28px;display:flex;align-items:center;gap:12px;}
+.skills-lbl::after{content:'';flex:1;height:1px;background:var(--crimson);opacity:.3;}
+.skill-row{display:flex;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid rgba(26,18,8,.08);}
+.skill-row:last-child{border-bottom:none;}
+.skill-name{font-size:13px;font-weight:500;color:var(--charcoal);width:140px;flex-shrink:0;letter-spacing:.02em;}
+.skill-bar{flex:1;height:2px;background:rgba(26,18,8,.1);position:relative;}
+.skill-fill{position:absolute;top:0;left:0;height:100%;background:var(--crimson);transition:width 1.2s cubic-bezier(.25,.46,.45,.94);}
+.skill-pct{font-family:'Playfair Display',serif;font-size:13px;font-weight:600;color:var(--crimson);width:36px;text-align:right;}
+
+/* ════════ PROJECTS ════════ */
+#page-projects{background:var(--cream);}
+.pr-hero{background:var(--crimson-deep);padding:160px 80px 80px;position:relative;overflow:hidden;}
+.pr-hero::after{content:'WORK';position:absolute;right:-10px;bottom:-50px;font-family:'Playfair Display',serif;font-size:clamp(120px,20vw,220px);font-weight:900;color:rgba(255,255,255,.03);line-height:1;user-select:none;}
+.pr-hero-inner{display:flex;justify-content:space-between;align-items:flex-end;position:relative;z-index:2;}
+.pr-hero h1{font-family:'Playfair Display',serif;font-size:clamp(48px,8vw,90px);font-weight:900;line-height:.9;color:var(--white);text-transform:uppercase;letter-spacing:-.02em;}
+.pr-hero h1 em{color:var(--gold);font-style:italic;display:block;}
+.pr-hero-cnt{font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:rgba(255,255,255,.08);line-height:1;text-align:right;}
+.pr-hero-sub{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-top:4px;text-align:right;}
+
+/* Filter tabs */
+.pr-filter{background:var(--charcoal);padding:0 80px;display:flex;gap:0;border-bottom:1px solid rgba(200,165,106,.1);}
+.f-btn{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(245,237,226,.45);padding:20px 28px;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .25s;font-family:'DM Sans',sans-serif;}
+.f-btn:hover{color:rgba(245,237,226,.8);}
+.f-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* Section divider */
+.pr-section-label{padding:40px 80px 0;display:flex;align-items:center;gap:16px;}
+.pr-section-label span{font-size:10px;letter-spacing:.36em;text-transform:uppercase;color:var(--crimson);font-weight:600;}
+.pr-section-label::after{content:'';flex:1;height:1px;background:var(--crimson);opacity:.2;}
+
+/* Card grid */
+.pr-body{padding:24px 80px 80px;}
+.pr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+
+.pr-card{background:var(--white);overflow:hidden;cursor:pointer;transition:transform .35s cubic-bezier(.25,.46,.45,.94),box-shadow .35s;}
+.pr-card:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(26,18,8,.12);}
+
+/* Image area */
+.pr-card-img{position:relative;height:220px;overflow:hidden;background:var(--crimson-deep);}
+.pr-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.pr-card:hover .pr-card-img img{transform:scale(1.06);}
+.pr-card-img-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
+.pr-card-img-placeholder.bg1{background:var(--crimson-deep);}
+.pr-card-img-placeholder.bg2{background:var(--charcoal);}
+.pr-card-img-placeholder.bg3{background:#2a1a0a;}
+.pr-card-img-placeholder.bg4{background:#0a1a2a;}
+.pr-card-img-placeholder.bg5{background:#0a2a1a;}
+.pr-card-img-placeholder.bg6{background:#1a0a2a;}
+.pr-card-img-placeholder.bg7{background:#1a1a0a;}
+.pr-card-img-placeholder.bg8{background:#0a2a2a;}
+.ph-icon{font-size:32px;opacity:.4;}
+.ph-text{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.25);}
+/* Type badge */
+.pr-card-type-badge{position:absolute;top:14px;right:14px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;padding:5px 12px;}
+.badge-task{background:var(--crimson);color:var(--white);}
+.badge-practice{background:var(--charcoal);color:var(--gold);}
+.badge-project{background:var(--gold);color:var(--crimson-deep);}
+.badge-final{background:var(--gold);color:var(--crimson-deep);}
+.badge-essay{background:#2a5a3a;color:#a8e6c0;}
+
+/* Card body */
+.pr-card-body{padding:28px;}
+.pr-card-num{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.pr-card-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--charcoal);line-height:1.2;margin-bottom:10px;}
+.pr-card-desc{font-size:12px;color:rgba(26,18,8,.55);line-height:1.7;margin-bottom:18px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.pr-card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid rgba(26,18,8,.07);}
+.pr-card-link{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--crimson);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .2s;font-weight:500;}
+.pr-card-link:hover{color:var(--gold);}
+.pr-card-link svg{width:12px;height:12px;flex-shrink:0;}
+.pr-card-arrow{font-size:18px;color:var(--crimson);transition:transform .25s;}
+.pr-card:hover .pr-card-arrow{transform:translateX(5px);}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,.85);z-index:500;align-items:center;justify-content:center;padding:40px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--white);max-width:760px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
+.modal-img{width:100%;height:320px;object-fit:cover;display:block;}
+.modal-img-ph{width:100%;height:320px;display:flex;align-items:center;justify-content:center;}
+.modal-body{padding:48px;}
+.modal-type{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--crimson);margin-bottom:12px;}
+.modal-title{font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,36px);font-weight:700;color:var(--charcoal);line-height:1.15;margin-bottom:20px;}
+.modal-desc{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:rgba(26,18,8,.65);line-height:1.85;margin-bottom:28px;}
+.modal-open-btn{display:inline-flex;align-items:center;gap:10px;background:var(--crimson);color:var(--white);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:14px 32px;text-decoration:none;transition:background .25s;border:none;cursor:pointer;}
+.modal-open-btn:hover{background:var(--crimson-mid);}
+.modal-open-btn svg{width:14px;height:14px;}
+.modal-close{position:absolute;top:20px;right:20px;background:var(--charcoal);color:var(--white);border:none;width:36px;height:36px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.modal-close:hover{background:var(--crimson);}
+
+/* Empty state */
+.pr-empty{text-align:center;padding:80px 40px;color:rgba(26,18,8,.35);}
+.pr-empty-icon{font-size:48px;margin-bottom:16px;opacity:.3;}
+.pr-empty p{font-family:'Cormorant Garamond',serif;font-size:18px;}
+
+.pr-footer{background:var(--charcoal);padding:60px 80px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:32px;}
+.pr-footer-name{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--white);}
+.pr-footer-name em{font-style:italic;color:var(--gold);}
+.pr-footer-course{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:6px;}
+.pr-footer-links{display:flex;gap:20px;flex-wrap:wrap;}
+.pr-footer-links a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,237,227,.4);text-decoration:none;transition:color .2s;}
+.pr-footer-links a:hover{color:var(--gold);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:18px 24px;}
+  .land-hero{grid-template-columns:1fr;padding:120px 28px 60px;}
+  .land-cards{display:none;}
+  .land-ticker{padding:20px 28px;gap:32px;}
+  .land-preview{grid-template-columns:1fr;}
+  .prev-card{padding:40px 28px;}
+  .ab-hero{grid-template-columns:1fr;padding:120px 28px 60px;gap:40px;}
+  .ab-bio{grid-template-columns:1fr;padding:60px 28px;}
+  .pr-hero{padding:120px 28px 60px;}
+  .pr-filter{padding:0 28px;overflow-x:auto;}
+  .pr-body{padding:24px 28px 60px;}
+  .pr-section-label{padding:32px 28px 0;}
+  .pr-grid{grid-template-columns:1fr;}
+  .pr-footer{padding:60px 28px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" onclick="goTo('landing')">Portfolio<span>.</span></a>
+  <ul class="nav-links">
+    <li><a onclick="goTo('landing')" id="nl">Home</a></li>
+    <li><a onclick="goTo('about')"   id="na">About Me</a></li>
+    <li><a onclick="goTo('projects')" id="np">Projects</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════ LANDING ═══════════ -->
+<div id="page-landing" class="page active">
+  <section style="min-height:100vh;position:relative;overflow:hidden;background:var(--crimson-deep);display:flex;flex-direction:column;">
+    <div class="land-bg-txt">PORTFOLIO</div>
+    <div class="land-hero">
+      <div class="fade-in" style="position:relative;z-index:2;">
+        <p class="land-eyebrow">Midterm & Final Portfolio · 2026</p>
+        <h1 class="land-title">Midterm / Final<br><em>Tasks</em></h1>
+        <p class="land-sub">A curated compilation of midterm tasks and practices — each piece representing growth, dedication, and craftsmanship over the semester.</p>
+        <div class="land-btns">
+          <button class="btn-p" onclick="goTo('projects')">View My Work</button>
+          <button class="btn-o" onclick="goTo('about')">About Me</button>
+        </div>
+      </div>
+      <div class="land-cards">
+        <div class="lcard">
+          <p class="lcard-lbl">Works Completed</p>
+          <div class="lcard-val">12</div>
+          <p class="lcard-desc">Tasks, practices &amp; final works</p>
+        </div>
+        <div class="lcard">
+          <p class="lcard-lbl">Term</p>
+          <div class="lcard-val" style="font-size:26px;line-height:1.3;">2nd Sem<br>AY 2026</div>
+        </div>
+      </div>
+    </div>
+    <div class="land-ticker">
+      <div class="tick-item"><span class="tick-dot"></span>Midterm Tasks</div>
+      <div class="tick-item"><span class="tick-dot"></span>Lab Practices</div>
+      <div class="tick-item"><span class="tick-dot"></span>Final Tasks</div>
+      <div class="tick-item"><span class="tick-dot"></span>Power BI</div>
+      <div class="tick-item"><span class="tick-dot"></span>SQL</div>
+    </div>
+  </section>
+  <div class="land-preview">
+    <div class="prev-card" onclick="goTo('about')">
+      <p class="prev-num">01</p>
+      <h3 class="prev-title">About <em>Me</em></h3>
+      <p class="prev-desc">Who I am, my background, skills, and the journey that brought me to this point in my studies.</p>
+      <p class="prev-link">Read More →</p>
+    </div>
+    <div class="prev-card" onclick="goTo('projects')">
+      <p class="prev-num">02</p>
+      <h3 class="prev-title">Midterm and Final <em>Tasks</em></h3>
+      <p class="prev-desc">All midterm tasks, lab practices, and final works — presented with context, tools used, and key takeaways.</p>
+      <p class="prev-link">See Work →</p>
+    </div>
+    <div class="prev-card">
+      <p class="prev-num">03</p>
+      <h3 class="prev-title">The <em>Goal</em></h3>
+      <p class="prev-desc">To document growth, demonstrate mastery, and present work that reflects genuine effort and learning.</p>
+      <p class="prev-link" style="color:var(--gold);">This Portfolio ✦</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ABOUT ═══════════ -->
+<div id="page-about" class="page">
+  <div class="ab-hero">
+    <div style="position:relative;z-index:2;">
+      <h1>About<br><em>Me</em></h1>
+      <p>I am a dedicated Computer Science student with a strong passion for learning, problem-solving, and building creative, interactive projects. I enjoy exploring new technologies and continuously improving my skills, driven by curiosity and the desire to create meaningful digital experiences that can inspire and help others.</p>
+    </div>
+    <div class="ab-stats" style="position:relative;z-index:2;">
+      <img src="image.webp" alt="image" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+  </div>
+
+  <div class="ab-bio">
+    <div>
+      <h2>Hello, I'm<br><em>Andrea Gaille Mendoza</em></h2>
+      <p>I am a Computer Science student who enjoys learning how technology works and creating simple, interactive projects. I like turning ideas into real applications and improving my skills through practice.</p>
+      <p>My goal is to become a skilled developer and build meaningful projects in the future. I am motivated to keep learning and grow in the tech field beyond this semester.</p>
+      <div style="margin-top:36px;">
+        <button class="btn-p" onclick="goTo('projects')" style="font-size:10px;padding:14px 28px;">See My Work</button>
+      </div>
+    </div>
+    <div>
+      <p class="skills-lbl">Skills &amp; Tools</p>
+      <div class="skill-row"><span class="skill-name">Communication & Technical Writing</span><div class="skill-bar"><div class="skill-fill" style="width:90%;"></div></div><span class="skill-pct">90%</span></div>
+      <div class="skill-row"><span class="skill-name">Adaptability & Resilience</span><div class="skill-bar"><div class="skill-fill" style="width:80%;"></div></div><span class="skill-pct">80%</span></div>
+      <div class="skill-row"><span class="skill-name">Analytical Thinking</span><div class="skill-bar"><div class="skill-fill" style="width:75%;"></div></div><span class="skill-pct">75%</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PROJECTS ═══════════ -->
+<div id="page-projects" class="page">
+
+  <!-- Hero -->
+  <div class="pr-hero">
+    <div class="pr-hero-inner">
+      <h1>My<br><em>Projects</em></h1>
+      <div>
+        <div class="pr-hero-cnt" id="pr-count">00</div>
+        <p class="pr-hero-sub">Total Works</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="pr-filter">
+    <button class="f-btn active" onclick="filterCards('all',this)">All Work</button>
+    <button class="f-btn" onclick="filterCards('task',this)">Midterm Tasks</button>
+    <button class="f-btn" onclick="filterCards('practice',this)">Practices</button>
+    <button class="f-btn" onclick="filterCards('final',this)">Final Tasks</button>
+    <button class="f-btn" onclick="filterCards('essay',this)">Essay</button>
+  </div>
+
+  <!-- Grid -->
+  <div class="pr-body">
+    <div class="pr-grid" id="pr-grid"></div>
+  </div>
+
+  <div class="pr-footer">
+    <div>
+      <p class="pr-footer-name">Andrea Gaille <em>Mendoza</em></p>
+      <p class="pr-footer-course">Student · BSCS · CCA</p>
+    </div>
+    <div class="pr-footer-links">
+      <a href="#">Email</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">GitHub</a>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal" id="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-img-wrap"></div>
+    <div class="modal-body">
+      <p class="modal-type" id="modal-type"></p>
+      <h2 class="modal-title" id="modal-title"></h2>
+      <p class="modal-desc" id="modal-desc"></p>
+      <div id="modal-link-wrap"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const defaultProjects = [
+  // ── MIDTERM TASKS ──
+  {
+    num:'01', type:'task',
+    title:'Midterms Task 1',
+    description:'Data cleaning and preparation using Excel.',
+    image:'Midterms task/TASK 1 SS.png',
+    link:'Midterms task/Task 1.xlsx'
+  },
+  {
+    num:'02', type:'task',
+    title:'Midterms Task 2',
+    description:'Data analysis using pivot table.',
+    image:'Midterms task/TASK 2 SS.png',
+    link:'Midterms task/Task 2.xlsx'
+  },
+  {
+    num:'03', type:'task',
+    title:'Midterms Task 3',
+    description:'Data preparation and cleaning and modeling with Power Query.',
+    image:'Midterms task/TASK 3 SS.png',
+    link:'Midterms task/Task 3.xlsx'
+  },
+  // ── MIDTERM PRACTICES ──
+  {
+    num:'04', type:'practice',
+    title:'Practice Title 1',
+    description:'Sales revenue dataset.',
+    image:'Midterms practice/TASK 1 PRACT.png',
+    link:'Midterms practice/Task1.xlsx'
+  },
+  {
+    num:'05', type:'practice',
+    title:'Practice Title 2',
+    description:'Sales Dashboard.',
+    image:'Midterms practice/TASK 2 PRACT.png',
+    link:'Midterms practice/Task2.xlsx'
+  },
+  {
+    num:'06', type:'practice',
+    title:'Practice Title 3',
+    description:'Practice task query.',
+    image:'Midterms practice/TASK 3 PRACT.png',
+    link:'Midterms practice/Task3.xlsx'
+  },
+  // ── FINAL PRACTICE ──
+  {
+    num:'07', type:'practice',
+    title:'Final Practice 1',
+    description:'Data Preparations using SQL — an introductory exercise in writing SQL queries for data cleaning, formatting, and preparation.',
+    image:'Final practice/Finals Pratice SS 1.png',
+    link:'Final practice/Finals Practice 1.sql'
+  },
+  // ── FINAL TASKS ──
+  {
+    num:'08', type:'final',
+    title:'Final Task 1',
+    description:'Data Preparation and Analysis using SQL — applying structured query language to clean, transform, and analyze datasets.',
+    image:'Final task/Finals Task SS 1.png',
+    link:'Final task/Finals Task 1.pdf'
+  },
+  {
+    num:'09', type:'essay',
+    title:'Final Task 1.1',
+    description:'Data Analytics and SQL — an essay exploring the relationship between SQL and modern data analytics practices.',
+    image:'Final task/Finals Essay Task 1 SS.png',
+    link:'Final task/Finals Essay Task 1.pdf'
+  },
+  {
+    num:'10', type:'final',
+    title:'Final Task 2',
+    description:'Navigating Power BI — exploring the Power BI environment, connecting data sources, and building foundational reports.',
+    image:'Final task/Finals Task 2 SS 2.png',
+    link:'Final task/Finals Task 2.pbix'
+  },
+  {
+    num:'11', type:'final',
+    title:'Final Task 3',
+    description:'Time Intelligence Function in Power BI — using DAX time intelligence functions to create year-over-year, month-to-date, and rolling calculations.',
+    image:'Final task/Finals Task 3 SS 1.png',
+    link:'Final task/Finals Task 3.pbix'
+  },
+  {
+    num:'12', type:'final',
+    title:'Final Task 4',
+    description:'Designing Interactive Reports — building polished, interactive Power BI reports with slicers, drill-throughs, and dynamic visuals.',
+    image:'Final task/Finals Task 4 SS 1.png',
+    link:'Final task/Finals Task 4.pbix'
+  },
+];
+
+const bgClasses = ['bg1','bg2','bg3','bg4','bg5','bg6','bg7','bg8'];
+const phIcons   = ['📊','📁','🗂️','💡','🔬','📋','✏️','🖥️','📝','⚡','📈','🎨'];
+let allProjects  = [...defaultProjects];
+let activeFilter = 'all';
+
+function typeClass(t){
+  if(t==='task')     return 'badge-task';
+  if(t==='practice') return 'badge-practice';
+  if(t==='final')    return 'badge-final';
+  if(t==='essay')    return 'badge-essay';
+  return 'badge-project';
+}
+
+function typeLabel(t){
+  if(t==='final') return 'Final Task';
+  if(t==='essay') return 'Essay';
+  return t.charAt(0).toUpperCase() + t.slice(1);
+}
+
+function externalIcon(){
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
+}
+
+function buildCard(p, idx){
+  const bg = bgClasses[idx % bgClasses.length];
+  const icon = phIcons[idx % phIcons.length];
+
+  const imgHTML = p.image
+    ? `<img src="${p.image}" alt="${p.title}" onerror="this.parentElement.innerHTML='<div class=\\'pr-card-img-placeholder ${bg}\\'><div class=\\'ph-icon\\'>${icon}</div><span class=\\'ph-text\\'>image not found</span></div>'">`
+    : `<div class="pr-card-img-placeholder ${bg}"><div class="ph-icon">${icon}</div><span class="ph-text">add image</span></div>`;
+
+  const linkBtn = p.link
+    ? `<a class="pr-card-link" href="${p.link}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${externalIcon()} Open File</a>`
+    : `<span class="pr-card-link" style="opacity:.35;cursor:default;">No link yet</span>`;
+
+  return `
+  <div class="pr-card" data-type="${p.type}" onclick="openModal(${allProjects.indexOf(p)})">
+    <div class="pr-card-img">
+      ${imgHTML}
+      <span class="pr-card-type-badge ${typeClass(p.type)}">${typeLabel(p.type)}</span>
+    </div>
+    <div class="pr-card-body">
+      <p class="pr-card-num">${p.num || String(idx+1).padStart(2,'0')} · ${typeLabel(p.type).toUpperCase()}</p>
+      <h3 class="pr-card-title">${p.title}</h3>
+      <p class="pr-card-desc">${p.description}</p>
+      <div class="pr-card-footer">
+        ${linkBtn}
+        <span class="pr-card-arrow">→</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderGrid(){
+  const grid = document.getElementById('pr-grid');
+  const filtered = activeFilter === 'all'
+    ? allProjects
+    : allProjects.filter(p => p.type === activeFilter);
+
+  if(filtered.length === 0){
+    grid.innerHTML = `<div class="pr-empty" style="grid-column:1/-1"><div class="pr-empty-icon">📂</div><p>No ${activeFilter}s found.</p></div>`;
+  } else {
+    grid.innerHTML = filtered.map((p,i) => buildCard(p, i)).join('');
+  }
+  document.getElementById('pr-count').textContent = String(allProjects.length).padStart(2,'0');
+}
+
+function filterCards(type, btn){
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = type;
+  renderGrid();
+}
+
+// ── Modal ──
+function openModal(idx){
+  const p = allProjects[idx];
+  const bg = bgClasses[idx % bgClasses.length];
+  const icon = phIcons[idx % phIcons.length];
+
+  document.getElementById('modal-type').textContent = typeLabel(p.type).toUpperCase();
+  document.getElementById('modal-title').textContent = p.title;
+  document.getElementById('modal-desc').textContent = p.description || 'No description provided.';
+
+  document.getElementById('modal-img-wrap').innerHTML = p.image
+    ? `<img class="modal-img" src="${p.image}" alt="${p.title}" onerror="this.parentElement.innerHTML='<div class=\\'modal-img-ph ${bg}\\'><span style=\\'font-size:48px;opacity:.3\\'>${icon}</span></div>'">`
+    : `<div class="modal-img-ph ${bg}" style="background:var(--charcoal)"><span style="font-size:48px;opacity:.2">${icon}</span></div>`;
+
+  document.getElementById('modal-link-wrap').innerHTML = p.link
+    ? `<a class="modal-open-btn" href="${p.link}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Open File
+      </a>`
+    : '';
+
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(e){
+  if(e && e.target !== document.getElementById('modal')) return;
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ── Page nav ──
+function goTo(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  ['nl','na','np'].forEach(x=>document.getElementById(x).classList.remove('active'));
+  const map={landing:'nl',about:'na',projects:'np'};
+  document.getElementById(map[id]).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>40);
+});
+
+// Init
+renderGrid();
+</script>
+</body>
+</html>
